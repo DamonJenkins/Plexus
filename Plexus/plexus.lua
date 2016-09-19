@@ -1,13 +1,10 @@
-shell.run "Titanium/bin/make.lua Titanium"
-dofile "build/titanium.lua"
-
-App = Application():set{
+App = Application():set {
   colour = 128,
   backgroundColour = 1,
   terminatable = true
 }
 
-App:importFromTML "plexus.tml"
+App:importFromTML "Plexus/plexus.tml"
 
 local app = {
     pages = App:query "PageContainer".result[1]

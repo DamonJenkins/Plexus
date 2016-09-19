@@ -1,0 +1,7 @@
+-- Titanium is still in development, and thus no automated build solution exists yet
+shell.run "Titanium/bin/make.lua Titanium"
+dofile "build/titanium.lua"
+
+-- Build our project
+shell.run "Titanium/bin/package.lua --source=Plexus --output=build/plexus.lua --init=Plexus/plexus.lua --minify --minify-source=Titanium/bin/Minify.lua"
+dofile "build/plexus.lua"
