@@ -1,0 +1,10 @@
+<PageContainer X=1 Y=1 width=51 height=19>
+  <Page name="main">
+    <Label X=18 Y=1 text="Plexus - CC IMS"/>
+    <ScrollContainer X=1 Y=2 width=51 height=17>
+      <Label id="message" text=""/>
+    </ScrollContainer>
+    <Input X=1 Y=19 width=45 id="user_text" backgroundColour="128" colour="1" placeholder="Input Something" focused/>
+    <Button X=46 Y=19 width="6" id="send" text=" Send" backgroundColour="32"/>
+  </Page>
+</PageContainer>
