@@ -1,4 +1,4 @@
-dofile "bin/make.lua"
+shell.run "Titanium/bin/make.lua Titanium"
 dofile "build/titanium.lua"
 
 App = Application():set{
@@ -7,7 +7,7 @@ App = Application():set{
   terminatable = true
 }
 
-App:importFromTML "titaniumwork/jatb.tml"
+App:importFromTML "plexus.tml"
 
 local app = {
     pages = App:query "PageContainer".result[1]

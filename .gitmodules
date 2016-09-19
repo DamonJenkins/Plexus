@@ -1,0 +1,3 @@
+[submodule "Titanium"]
+	path = Titanium
+	url = https://github.com/hbomb79/Titanium.git
