@@ -30,10 +30,8 @@
 
 <Label class="item_name">
   <colour important>white</colour>
-  <X>2</X>
 </Label>
 
 <Label class="item_type">
   <colour important>green</colour>
-  <X>16</X>
 </Label>
