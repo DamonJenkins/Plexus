@@ -19,10 +19,11 @@ end
 
 --[[
     @instance
-    @desc Navigate through the history.entries table
+    @desc Navigate through the Plexus instance history
     @param <number - direction>
-]]
 
+    Note: If number (direction) is positive, attempts will be made to move forward through the history. If number is negative, the opposite holds true.
+]]
 function Plexus:historyNavigate( offset )
     local hOffset, offset = self.history.offset, offset or 0
 
