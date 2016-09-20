@@ -7,10 +7,14 @@ App = Application():set {
 App:importFromTML "Plexus/plexus.tml"
 
 local app = {
+    masterTheme = Theme.fromFile("masterTheme", "Plexus/themes/master.theme"),
+    defaultTheme = Theme.fromFile("defaultTheme", "Plexus/themes/default.theme"),
     pages = App:query "PageContainer".result[1]
 }
 
 app.pages:selectPage "main"
+App:addTheme(app.masterTheme)
+App:addTheme(app.defaultTheme)
 
 App:query "#user_text":on("trigger", function(self, value)
   -- Send
