@@ -4,11 +4,11 @@ App = Application():set {
   terminatable = true
 }
 
-App:importFromTML "Plexus/plexus.tml"
+App:importFromTML "Plexus/ui/plexus.tml"
 
 local app = {
-    masterTheme = Theme.fromFile("masterTheme", "Plexus/themes/master.theme"),
-    defaultTheme = Theme.fromFile("defaultTheme", "Plexus/themes/default.theme"),
+    masterTheme = Theme.fromFile("masterTheme", "Plexus/ui/themes/master.theme"),
+    defaultTheme = Theme.fromFile("defaultTheme", "Plexus/ui/themes/default.theme"),
     pages = App:query "PageContainer".result[1]
 }
 
