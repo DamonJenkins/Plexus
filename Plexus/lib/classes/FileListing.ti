@@ -1,0 +1,32 @@
+class FileListing extends Node {
+    plexusOwner = false;
+    path = false;
+
+    cache = {};
+}
+
+function FileListing:__init__( plexus, path )
+    if not Titanium.typeOf( plexus, "Plexus", true ) then
+        return error("FileListing constructor requires a plexus instance. '"..tostring( plexus ).."' is invalid")
+    end
+
+    self.plexusOwner = plexus
+    self.path = Plexus.static.cleanPath( path )
+
+    self:cacheFileInformation()
+end
+
+function FileListing:draw( force )
+    --TODO
+end
+
+function FileListing:cacheFileInformation()
+    local path = self.path
+    if not fs.exists( path ) then
+        return error("FileListing failed to fetch path information. Path '"..tostring( path ).."' doesn't exist")
+    end
+
+    cache.fileName = fs.getName( path )
+    cache.size = fs.getSize( path )
+    cache.mime = Plexus.static.determineMime( path )
+end
