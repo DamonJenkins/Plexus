@@ -1,3 +1,5 @@
+util = require "lib.util"
+
 App = Application():set {
   colour = 128,
   backgroundColour = 1,
