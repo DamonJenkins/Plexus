@@ -3,6 +3,11 @@ class Plexus {
         mimeTypes = {}
     };
 
+    history = {
+        offset = 0;
+        entries = {};
+    };
+
     location = "/";
     computerID = false;
 }
@@ -11,6 +16,24 @@ function Plexus:__init__( pwd )
     self.computerID = computerID
     self.location = Plexus.static.cleanPath( pwd )
 end
+
+--[[
+    @instance
+    @desc Navigate through the history.entries table
+    @param <number - direction>
+]]
+
+function Plexus:historyNavigate( offset )
+    offset = offset or 0
+    if offset > 0 and self.history.offset == 0 then
+        return error "Attempt to navigate forward past history end point"
+    elseif offset < 0 and self.history.offset == #self.history.entries*-1 then
+        return error "Attempt to navigate backward past history start point"
+    else
+        self.history.offset = self.history.offset + offset
+    end
+end
+
 
 function Plexus.static.cleanPath( path )
     --TODO: Path cleaning
