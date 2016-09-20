@@ -4,9 +4,9 @@ return {
             return error( "Failed to get max length of '"..tostring( t ).."'. Unsupported type" )
         end
 
-        local len
+        local len = 0
         if keyName then
-            for k, v in pairs( t ) do len = math.max( v[ keyName ] or 0, len ) end
+            for k, v in pairs( t ) do len = math.max( #v[ keyName ] or 0, len ) end
         else
             for i = 1, #t do len = math.max( #t[ i ], len ) end
         end
