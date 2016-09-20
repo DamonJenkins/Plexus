@@ -60,7 +60,7 @@ end
 ]]
 function Plexus.static.splitPath( path )
     local parts, path = {}, Plexus.static.cleanPath( path )
-    for part in path:gmatch "(%w+)/?" do
+    for part in path:gmatch "([^/]+)/?" do
         parts[ #parts + 1 ] = part
     end
 
