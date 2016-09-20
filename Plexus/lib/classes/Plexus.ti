@@ -99,4 +99,19 @@ function Plexus.static.registerMime( mime, ... )
     Plexus.mimeTypes[ mime ] = existing
 end
 
+--[[
+    @static
+    @desc Returns the mime type associated with the extension of 'path'.
+    @param <string - path>
+    @return [string - mime]
+]]
+function Plexus.static.determineMime( path )
+    local ext, mimes = Plexus.static.getExtension( path ), Plexus.mimeTypes
+    for mime, exts in pairs( mimes ) do
+        for e = 1, #exts do
+            if exts[ e ] == ext then
+                return mime
+            end
+        end
+    end
 end
