@@ -1,0 +1,26 @@
+class Plexus {
+    static = {
+        mimeTypes = {}
+    };
+
+    location = "/";
+    computerID = false;
+}
+
+function Plexus:__init__( pwd )
+    self.computerID = computerID
+    self.location = Plexus.static.cleanPath( pwd )
+end
+
+function Plexus.static.cleanPath( path )
+    --TODO: Path cleaning
+    return path
+end
+
+function Plexus.static.explore( path )
+
+end
+
+function Plexus.static.getAction( mime )
+
+end

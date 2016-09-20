@@ -3,5 +3,5 @@ shell.run "Titanium/bin/make.lua Titanium"
 dofile "build/titanium.lua"
 
 -- Build our project
-shell.run "Titanium/bin/package.lua --source=Plexus --output=build/plexus.lua --init=Plexus/plexus.lua --minify --minify-source=Titanium/bin/Minify.lua"
+shell.run "Titanium/bin/package.lua --source=Plexus --class-source=Plexus/classes --output=build/plexus.lua --init=Plexus/plexus.lua -tid --minify-source=Titanium/bin/Minify.lua"
 dofile "build/plexus.lua"
