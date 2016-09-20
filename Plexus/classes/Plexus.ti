@@ -24,13 +24,14 @@ end
 ]]
 
 function Plexus:historyNavigate( offset )
-    offset = offset or 0
-    if offset > 0 and self.history.offset == 0 then
+    local hOffset, offset = self.history.offset, offset or 0
+
+    if offset > 0 and hOffset == 0 then
         return error "Attempt to navigate forward past history end point"
-    elseif offset < 0 and self.history.offset == #self.history.entries*-1 then
+    elseif offset < 0 and hOffset == #self.history.entries then
         return error "Attempt to navigate backward past history start point"
     else
-        self.history.offset = self.history.offset + offset
+        self.history.offset = hOffset + offset
     end
 end
 
