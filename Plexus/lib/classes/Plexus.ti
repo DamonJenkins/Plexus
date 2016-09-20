@@ -40,7 +40,6 @@ function Plexus:historyNavigate( offset )
     end
 end
 
-
 --[[
     @static
     @desc Cleans a file system path by removing anomolies that will likely cause problems when using the filesystem commands
