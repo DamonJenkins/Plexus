@@ -52,6 +52,21 @@ function Plexus.static.cleanPath( path )
             :gsub("/+$", "") -- Remove trailing slashes
 end
 
+--[[
+    @static
+    @desc 'Explode' the path provided into 'parts' that represent directories
+    @param <string - uncleanPath>
+    @return <table - parts>, <string - cleanPath>
+]]
+function Plexus.static.splitPath( path )
+    local parts, path = {}, Plexus.static.cleanPath( path )
+    for part in path:gmatch "(%w+)/?" do
+        parts[ #parts + 1 ] = part
+    end
+
+    return parts, path
+end
+
 function Plexus.static.explore( path )
 
 end
