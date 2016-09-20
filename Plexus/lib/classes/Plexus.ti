@@ -70,8 +70,14 @@ function Plexus.static.splitPath( path )
     return parts, path
 end
 
-function Plexus.static.explore( path )
-
+--[[
+    @static
+    @desc Returns the final part of the extension for 'path'
+    @param <string - cleanPath>
+    @return <string - extension>
+]]
+function Plexus.static.getExtension( path )
+    return path:match ".+%.(.-)$" or ""
 end
 
 function Plexus.static.getAction( mime )
