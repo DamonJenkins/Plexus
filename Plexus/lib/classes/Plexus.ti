@@ -125,7 +125,7 @@ end
     @param <string - device>
 ]]
 function Plexus.static.whitelistDevice( device )
-    if type( device ) ~= "string" then
+    if type( device ) == "string" then
         table.insert( self.static.deviceWhitelist, device )
     else
         return error "Failed to whitelist peripheral. Invalid peripheral type provided"
