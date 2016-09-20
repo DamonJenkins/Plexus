@@ -1,12 +1,15 @@
 class Plexus {
     static = {
-        mimeTypes = {}
+        mimeTypes = {};
+        deviceWhitelist = {"computer", "turtle", "drive"};
     };
 
     history = {
         offset = 0;
         entries = {};
     };
+
+    peripherals = {};
 
     location = "/";
     computerID = false;
@@ -111,6 +114,39 @@ function Plexus.static.determineMime( path )
         for e = 1, #exts do
             if exts[ e ] == ext then
                 return mime
+            end
+        end
+    end
+end
+
+--[[
+    @static
+    @desc Adds the input device type to the deviceWhitelist table.
+    @param <string - device>
+]]
+function Plexus.static.whitelistDevice( device )
+    if type( device ) ~= "string" then
+        table.insert( self.static.deviceWhitelist, device )
+    else
+        return error "Failed to whitelist peripheral. Invalid peripheral type provided"
+    end
+end
+
+--[[
+    @static
+    @desc Adds currently connected, whitelisted devices to the peripherals table.
+]]
+function Plexus.static.discoverPeripherals()
+    local sides = {"top", "bottom", "left", "right", "front", "back"}
+    local types = {}
+    for _, side in ipairs( sides ) do
+        if peripheral.isPresent(side) then
+            local devType = peripheral.getType( side )
+            for _, whited in ipairs( self.static.deviceWhitelist ) do
+                if devType == whited then
+                    table.insert( self.peripherals, {devType, side} )
+                    break
+                end
             end
         end
     end
