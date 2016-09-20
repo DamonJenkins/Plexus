@@ -80,6 +80,23 @@ function Plexus.static.getExtension( path )
     return path:match ".+%.(.-)$" or ""
 end
 
-function Plexus.static.getAction( mime )
+--[[
+    @static
+    @desc Registers mime type 'mime', with the extensions provided. Previous extensions bound to mime type are preserved
+    @param <string - mime>, [string (vararg) - extensions]
+
+    Note: 'extensions' represents the file extensions to associate with this mime type
+]]
+function Plexus.static.registerMime( mime, ... )
+    local extensions, existing, ext = { ... }, Plexus.mimeTypes[ mime ] or {}
+    for i = 1, #extensions do
+        ext = extensions[ i ]
+        if not util.isInTable( existing, ext ) then
+            existing[ #existing + 1 ] = ext
+        end
+    end
+
+    Plexus.mimeTypes[ mime ] = existing
+end
 
 end
