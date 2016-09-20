@@ -1,4 +1,4 @@
-util = require "lib.util"
+_G.util = require "lib.util" -- Work around for WIP pre-init file
 
 App = Application():set {
   colour = 128,

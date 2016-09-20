@@ -12,5 +12,15 @@ return {
         end
 
         return len
+    end,
+
+    isInTable = function( t, k, o )
+        for i = o or 1, #t do
+            if t[ i ] == k then
+                return true
+            end
+        end
+
+        return false
     end
 }
