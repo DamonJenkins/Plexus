@@ -35,9 +35,19 @@ function Plexus:historyNavigate( offset )
 end
 
 
+--[[
+    @static
+    @desc Cleans a file system path by removing anomolies that will likely cause problems when using the filesystem commands
+    @param <string - path>
+    @return <string - path>
+]]
 function Plexus.static.cleanPath( path )
-    --TODO: Path cleaning
     return path
+            :gsub("^%./", "") -- Remove trailing ./
+            :gsub("/%./", "/") -- Replace ./ inside path with /
+            :gsub("\\", "/") -- Replace \ with /
+            :gsub("//+", "/") -- Remove duplicate slashes
+            :gsub("/+$", "") -- Remove trailing slashes
 end
 
 function Plexus.static.explore( path )
