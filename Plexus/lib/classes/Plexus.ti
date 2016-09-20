@@ -13,6 +13,10 @@ class Plexus {
 }
 
 function Plexus:__init__( pwd )
+    if type( pwd ) ~= "string" then
+        return error("Plexus constructor requires a string path representing starting location. '"..tostring( pwd ).."' is invalid.")
+    end
+
     self.computerID = computerID
     self.location = Plexus.static.cleanPath( pwd )
 end
