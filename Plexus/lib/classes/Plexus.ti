@@ -239,20 +239,13 @@ end
     @static
     @desc Adds currently connected, whitelisted devices to the peripherals table.
 ]]
-function Plexus.static.discoverPeripherals()
-    local sides = {"top", "bottom", "left", "right", "front", "back"}
-    local types = {}
-    for _, side in ipairs( sides ) do
-        if peripheral.isPresent(side) then
-            local devType = peripheral.getType( side )
-            for _, whited in ipairs( self.static.deviceWhitelist ) do
-                if devType == whited then
-                    table.insert( self.peripherals, {devType, side} )
-                    break
-                end
-            end
+function Plexus.static.discoverPeripherals( )
+    table.foreach( Plexus.static.deviceWhitelist, function( _, white )
+        local these = { peripheral.find( white ) }
+        if not type( these[1] ) == "nil" then
+            table.foreach( these, function( _, obj ) table.insert( self.peripherals, obj ) end )
         end
-    end
+    end )
 end
 
 configureConstructor {
