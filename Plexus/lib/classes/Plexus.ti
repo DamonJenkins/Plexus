@@ -26,6 +26,7 @@ end
 function Plexus:start()
     self.cache = {}
     self.cache.listing_display = self:query "#listing_container".result[ 1 ]
+    self.cache.size_header = self:query "Label#size_header".result[ 1 ]
 
     self:updateListing()
     self.super:start()
@@ -33,7 +34,8 @@ end
 
 --[[
     @instance
-    @desc Displays the current working directory contents inside the Plexus file listing container. Directories are listed first, followed by files
+    @desc Displays the current working directory contents inside the Plexus file listing container.
+          Directories are listed first, followed by files.
     @param [string - location], [boolean - preserve]
 ]]
 function Plexus:updateListing( loc, preserve )
@@ -49,9 +51,20 @@ function Plexus:updateListing( loc, preserve )
     end
 
     table.sort( listing.nodes, function( a, b ) return a.__type == "DirectoryListing" end )
-    for i = 1, #listing.nodes do
-        listing.nodes[ i ].y = i
-    end
+    for i = 1, #listing.nodes do listing.nodes[ i ].y = i end
+
+    self:alignSizeInformation()
+end
+
+--[[
+    @instance
+    @desc Finds the maximum file name in the listing. This acts as the columns width and is used to position the size column.
+]]
+function Plexus:alignSizeInformation()
+    local nameWidth = math.max( util.getMaxLength( self.cache.listing_display.nodes, "fileName" ) + 4, 30 )
+
+    self.margin = nameWidth
+    self.cache.size_header.X = nameWidth
 end
 
 --[[
