@@ -1,6 +1,6 @@
 _G.util = require "lib.util" -- Work around for WIP pre-init file
 
-App = Plexus "/Titanium":set {
+App = Plexus "/":set {
   colour = 128,
   backgroundColour = 1,
   terminatable = true

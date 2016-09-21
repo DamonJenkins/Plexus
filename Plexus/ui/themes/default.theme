@@ -1,37 +1,23 @@
 <PageContainer>
-  <backgroundColour>white</backgroundColour>
-  <Label>
-    <colour>lime</colour>
-  </Label>
+    <backgroundColour>white</backgroundColour>
+
+    <Container id="control_bar">
+        <Button>
+            <backgroundColour>256</backgroundColour>
+        </Button>
+
+        <Button class="nav_button">
+            <width>3</width>
+            <Y>3</Y>
+            <horizontalAlign>centre</horizontalAlign>
+        </Button>
+    </Container>
+
+    <Container class="item_typesof">
+        <backgroundColour>grey</backgroundColour>
+
+        <Label>
+            <colour>white</colour>
+        </Label>
+    </Container>
 </PageContainer>
-
-<Container class="path_butts">
-  <backgroundColour>cyan</backgroundColour>
-  <Button>
-    <backgroundColour>cyan</backgroundColour>
-    <activeBackgroundColour>blue</activeBackgroundColour>
-  </Button>
-</Container>
-
-<Container class="content_cont">
-  <backgroundColour>lightGray</backgroundColour>
-  <Button>
-    <backgroundColour>lightBlue</backgroundColour>
-    <activeBackgroundColour>blue</activeBackgroundColour>
-    <colour>blue</colour>
-  </Button>
-</Container>
-
-<Container class="item_typesof">
-  <Label>
-    <colour important>white</colour>
-  </Label>
-</Container>
-
-<Label class="item_name">
-  <colour important>white</colour>
-</Label>
-
-<Label class="item_type">
-  <colour important>green</colour>
-</Label>
