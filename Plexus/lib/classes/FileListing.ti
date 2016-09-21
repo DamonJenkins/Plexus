@@ -1,32 +1,21 @@
-class FileListing extends Node {
-    plexusOwner = false;
-    path = false;
-
-    cache = {};
+class FileListing extends PathListing {
+    colour = 128;
+    backgroundColour = 256;
 }
 
-function FileListing:__init__( plexus, path )
-    if not Titanium.typeOf( plexus, "Plexus", true ) then
-        return error("FileListing constructor requires a plexus instance. '"..tostring( plexus ).."' is invalid")
-    end
+function FileListing:cacheFileInformation()
+    self.super:cacheFileInformation()
 
-    self.plexusOwner = plexus
-    self.path = Plexus.static.cleanPath( path )
-
-    self:cacheFileInformation()
+    self.cache.size = fs.getSize( self.path )
+    self.cache.mime = Plexus.static.determineMime( self.path )
 end
 
 function FileListing:draw( force )
-    --TODO
-end
+    if self.changed or force then
+        local parent = self.parent
+        self.super:draw( force )
 
-function FileListing:cacheFileInformation()
-    local path = self.path
-    if not fs.exists( path ) then
-        return error("FileListing failed to fetch path information. Path '"..tostring( path ).."' doesn't exist")
+        local size = tostring( self.cache.size )
+        self.canvas:drawTextLine( self.width - #size - ( parent.cache.contentHeight > parent.height and 2 or 1 ), 1, size.."kb", colours.orange )
     end
-
-    cache.fileName = fs.getName( path )
-    cache.size = fs.getSize( path )
-    cache.mime = Plexus.static.determineMime( path )
 end

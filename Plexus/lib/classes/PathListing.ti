@@ -1,0 +1,37 @@
+abstract class PathListing extends Node {
+    plexusOwner = false;
+    path = false;
+
+    cache = {};
+    allowMouse = true;
+}
+
+function PathListing:__init__( plexus, path )
+    if not Titanium.typeOf( plexus, "Plexus", true ) then
+        return error("PathListing constructor requires a plexus instance. '"..tostring( plexus ).."' is invalid")
+    end
+
+
+    self.raw.width = plexus.cache.listing_display.width
+    self:super()
+
+    self.plexusOwner = plexus
+    self.path = Plexus.static.cleanPath( path )
+
+    self:cacheFileInformation()
+end
+
+function PathListing:draw( force )
+    if self.changed or force then
+        self.canvas:drawTextLine( 2, 1, self.cache.fileName, self.colour, self.backgroundColour)
+    end
+end
+
+function PathListing:cacheFileInformation()
+    local path = self.path
+    if not fs.exists( path ) then
+        return error("PathListing failed to fetch path information. Path '"..tostring( path ).."' doesn't exist")
+    end
+
+    self.cache.fileName = fs.getName( path )
+end
