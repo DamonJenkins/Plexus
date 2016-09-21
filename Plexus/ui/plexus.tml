@@ -16,7 +16,7 @@
                 <Label text="Size" id="size_header"/>
             </Container>
             <ScrollContainer Y=2 width=51 height=13 id="listing_container" xScrollAllowed=false></ScrollContainer>
-            <Label colour=lightGrey text="Powered by Titanium (hbomb79)" X=11 Y=15/>
+            <Label colour=lightGrey text="Powered by Titanium" X=16 Y=15/>
         </Container>
     </Page>
 </PageContainer>
