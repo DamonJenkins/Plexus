@@ -22,5 +22,15 @@ return {
         end
 
         return false
+    end,
+
+    truncateString = function( s, l )
+        local over = #s - l
+        if over <= 0 then return s
+        elseif l <= 3 then return ("..."):sub( 1, l ) end
+
+
+        return s:sub( 1, math.max( math.floor( ( #s / 2 ) - 2 - ( over / 2 ) ), 0 ) ) .. "..." .. s:sub( math.ceil( ( #s / 2 ) + 2 + ( over / 2 ) ) )
     end
+
 }
