@@ -1,4 +1,4 @@
-abstract class PathListing extends Node {
+abstract class PathListing extends Button {
     plexusOwner = false;
     path = false;
 
@@ -41,3 +41,5 @@ function PathListing:cacheFileInformation()
 
     self.fileName = fs.getName( path )
 end
+
+configureConstructor( {}, false, true )

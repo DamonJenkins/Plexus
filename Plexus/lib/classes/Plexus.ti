@@ -42,11 +42,19 @@ function Plexus:updateListing( loc, preserve )
     local listing, pwd = self.cache.listing_display, self.location
     if not preserve then listing.nodes = {} end
 
-    local blacklist, fullPath = Plexus.static.fileBlacklist
-    for _, path in pairs( fs.list( loc or self.location ) ) do
-        fullPath = fs.combine( pwd, path )
+    local blacklist = Plexus.static.fileBlacklist
+    for i, path in pairs( fs.list( loc or self.location ) ) do
+        local fullPath = fs.combine( pwd, path )
+        local isDir = fs.isDir( fullPath )
+
         if not util.isInTable( blacklist, fullPath ) then
-            listing:addNode( ( Titanium.getClass( fs.isDir( fullPath ) and "DirectoryListing" or "FileListing" ) )( self, fullPath ):set{ y = _ } )
+            local node = ( Titanium.getClass( isDir and "DirectoryListing" or "FileListing" ) )( self, fullPath ):on("trigger", function()
+                if isDir then
+                    self:goToDirectory( fullPath )
+                else error("File: "..fullPath) end
+            end)
+
+            listing:addNode( node:set{ y = i } )
         end
     end
 

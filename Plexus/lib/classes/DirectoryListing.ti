@@ -1,9 +1,3 @@
 class DirectoryListing extends PathListing {
     colour = colours.cyan;
 }
-
-function DirectoryListing:onMouseClick( event, handled, within )
-    if not handled and within then
-        self.plexusOwner:goToDirectory( self.path )
-    end
-end
