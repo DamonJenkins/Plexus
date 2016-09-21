@@ -1,6 +1,5 @@
 class DirectoryListing extends PathListing {
-    colour = 128;
-    backgroundColour = colours.red
+    colour = colours.cyan;
 }
 
 function DirectoryListing:onMouseClick( event, handled, within )

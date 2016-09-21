@@ -1,6 +1,5 @@
 class FileListing extends PathListing {
     colour = 128;
-    backgroundColour = 256;
 }
 
 function FileListing:cacheFileInformation()
@@ -15,7 +14,6 @@ function FileListing:draw( force )
         local parent = self.parent
         self.super:draw( force )
 
-        local size = tostring( self.cache.size )
-        self.canvas:drawTextLine( self.width - #size - ( parent.cache.contentHeight > parent.height and 2 or 1 ), 1, size.."kb", colours.orange )
+        self.canvas:drawTextLine( self.plexusOwner.margin + 1, 1, util.formatSize( self.cache.size ), colours.cyan )
     end
 end
