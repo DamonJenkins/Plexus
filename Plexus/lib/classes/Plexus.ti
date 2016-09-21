@@ -1,8 +1,8 @@
-class Plexus {
+class Plexus extends Application {
     static = {
-        mimeTypes = {}
+        mimeTypes = {},
+        fileBlacklist = { ".DS_Store" }
     };
-
     history = {
         offset = 0;
         entries = {};
