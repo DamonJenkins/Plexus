@@ -1,0 +1,115 @@
+--[[
+    The NavigationBar is a node that acts as a input and selector at the same time. Buttons showing the path the user is currently in can be seen
+    inside the Navigation bar, the buttons can be clicked to change to that directory.
+
+    If a click occurs on whitespace, rather than a button the input is toggled allowing the user to type a path or edit the one the user is currently in.
+]]
+class NavigationBar extends Container {
+    sections = {};
+}
+
+--[[
+    @constructor
+    @desc Constructs the contents of the navigation bar. Among other things, this includes a page container and the two pages used to swap between input and buttons.
+]]
+function NavigationBar:__init__( ... )
+    self:super( ... )
+
+    self.pages = self:addNode( PageContainer( 1, 1, self.width, 1 ):set{ backgroundColour = self.backgroundColour } )
+    self.buttonPage, self.addressPage = Page "buttons", Page "address"
+
+    self.pages:addPage( self.buttonPage )
+    self.pages:addPage( self.addressPage )
+    self.addressInput = Input( 1, 1, self.width ):on("trigger", function( this, value )
+        if fs.isDir( value ) then
+            self.application:goToDirectory( value )
+            self:hideAddressBar()
+        end
+    end):set{ backgroundColour = 1 }
+
+    self.addressPage:addNode( self.addressInput )
+    self.pages:selectPage "buttons"
+end
+
+--[[
+    @instance
+    @desc Returns a table containing the absolute path of the sections selected. Selection is done by finding how many section names can fit inside the limit given, starting at the end (the last 'n' sections)
+    @param <number - limit>
+    @return <table - sections>
+]]
+function NavigationBar:getSectionsToFit( limit )
+    if type( limit ) ~= "number" then
+        return error("Failed to calculate sections to fit. Limit '"..tostring( limit ).."' is invalid, number required")
+    end
+
+    local sections, sectionReturn, width = Plexus.static.splitPathAbsolute( self.application.location ), {}, 0
+    for i = 1, #sections do
+        local name = fs.getName( sections[ i ] )
+        if #name + width + 1 > limit then break end
+
+        table.insert( sectionReturn, 1, sections[ i ] )
+        width = width + #name + 1
+    end
+
+    return sectionReturn
+end
+
+--[[
+    @instance
+    @desc Updates the buttons displayed inside of the button page by getting the sections that can fit in the space (width - 5).
+]]
+function NavigationBar:updateSectionListing()
+    local parent = self.buttonPage
+    parent.nodes = {}
+
+    local sections, x = self:getSectionsToFit( self.width - 5 ), 1
+    for i = 1, #sections do
+        local name = fs.getName( sections[ i ] )
+        parent:addNode( Button( name, x, 1, #name ):on("trigger", function() self.application:goToDirectory( sections[ i ] ) end):set{ activeBackgroundColour = 1, activeColour = colours.cyan } )
+
+        x = x + #name + 1
+    end
+    self.pages.changed = true
+end
+
+--[[
+    @instance
+    @desc Shows the address bar by changing page. The input is also focused and all text inside is selected for easy replacement
+]]
+function NavigationBar:showAddressBar()
+    self.pages:selectPage "address"
+
+    local input = self.addressPage.nodes[ 1 ]
+    input.value, input.selection = self.application.location, 0
+    input.position = #input.value
+
+    input:focus()
+end
+
+--[[
+    @instance
+    @desc Hides the address bar by changing page, revealing the navigation buttons. The address bar input is also unfocused
+]]
+function NavigationBar:hideAddressBar()
+    self.pages:selectPage "buttons"
+    self.addressInput:unfocus()
+end
+
+--[[
+    @instance
+    @desc Intercepts the containers handle function, used to determine if click landed on a navigation button or whitespace (toggles page depending on this)
+    @param <Event Instance - eventObj>
+    @return <boolean - propagate>
+]]
+function NavigationBar:handle( eventObj )
+    local r = self.super:handle( eventObj )
+    if eventObj.main ~= "MOUSE" then return end
+
+    if not eventObj.handled and eventObj:withinParent( self ) then
+        self:showAddressBar()
+    else
+        self:hideAddressBar()
+    end
+
+    return r
+end
