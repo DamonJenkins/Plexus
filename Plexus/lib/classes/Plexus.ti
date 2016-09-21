@@ -57,14 +57,19 @@ function Plexus:updateListing( loc, preserve )
                 else error("File: "..fullPath) end
             end)
 
-            listing:addNode( node:set{ y = i } )
+            listing:addNode( node:set{ Y = i } )
         end
     end
 
     table.sort( listing.nodes, function( a, b ) return a.__type == "DirectoryListing" end )
-    for i = 1, #listing.nodes do listing.nodes[ i ].y = i end
+    for i = 1, #listing.nodes do listing.nodes[ i ].Y = i end
+    listing.yScroll = 0
 
+    self.cache.nav:updateSectionListing()
     self:alignSizeInformation()
+    self:updateTitle()
+
+    self.changed = true
 end
 
 --[[
