@@ -24,9 +24,12 @@ end
     @desc Prepares the Plexus instance to begin. Caches important nodes, information, mounts peripherals and sets up UI. Starts the application afterwards
 ]]
 function Plexus:start()
-    self.cache = {}
-    self.cache.listing_display = self:query "#listing_container".result[ 1 ]
-    self.cache.size_header = self:query "Label#size_header".result[ 1 ]
+    self.cache = {
+        listing_display = self:query "#listing_container".result[ 1 ],
+        size_header = self:query "Label#size_header".result[ 1 ],
+        title = self:query "Label#location".result[ 1 ],
+        nav = self:query "NavigationBar".result[ 1 ]
+    }
 
     self:updateListing()
     self.super:start()
@@ -73,6 +76,10 @@ function Plexus:alignSizeInformation()
 
     self.margin = nameWidth
     self.cache.size_header.X = nameWidth
+end
+
+function Plexus:updateTitle( title )
+    self.cache.title.text = "- /" .. util.truncateString( title or self.location, 51 - self.cache.title.X )
 end
 
 --[[
