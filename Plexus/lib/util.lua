@@ -39,17 +39,15 @@ return {
     end,
 
     formatSize = function( b )
-        local units = {"B", "kB", "MB", "GB"}
-        local unit = 1
+        local units, unit = {"B", "kB", "MB", "GB"}, 1
         if type( b ) ~= "number" then
             return error "Failed to format size: Argument must be number"
-        else
-            while not (b < 100) and unit < 4 do
-                b = b/1000
-                unit = unit + 1
-            end
-            return util.round( b, 1 ) .. units[unit]
         end
+
+        while not ( b < 100 ) and unit < 4 do
+            b, unit = b / 1000, unit + 1
+        end
+        return util.round( b, 1 ) .. units[ unit ]
     end
 
 }
