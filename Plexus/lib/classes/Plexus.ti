@@ -97,6 +97,17 @@ function Plexus:goToDirectory( path )
 end
 
 --[[
+    @instance
+    @desc Navigates to the parent directory of the current location if one exists.
+]]
+function Plexus:navigateUp()
+    local target = Plexus.static.cleanPath( self.location:match "(.*[^/]+)/[^/]*$" or "" )
+
+    if target == self.location then return end
+    self:goToDirectory( target )
+end
+
+--[[
     @setter
     @desc Sets the instances location to a clean version of the path
     @param <string - pwd>

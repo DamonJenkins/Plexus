@@ -18,12 +18,8 @@ app.pages:selectPage "main"
 App:addTheme(app.masterTheme)
 App:addTheme(app.defaultTheme)
 
-App:query "#user_text":on("trigger", function(self, value)
-  -- Send
-end)
-
-App:query "#send":on("trigger", function(self)
-  -- Send
+App:query "#control_bar > Button#up":on("trigger", function( self )
+    App:navigateUp()
 end)
 
 App:start()
