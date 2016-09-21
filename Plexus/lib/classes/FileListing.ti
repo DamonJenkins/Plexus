@@ -14,6 +14,6 @@ function FileListing:draw( force )
         local parent = self.parent
         self.super:draw( force )
 
-        self.canvas:drawTextLine( self.plexusOwner.margin + 1, 1, util.formatSize( self.cache.size ), colours.cyan )
+        self.canvas:drawTextLine( self.plexusOwner.margin + 1, 1, util.formatSize( self.cache.size ), self.active and self.activeColour or colours.cyan, self.active and self.activeBackgroundColour )
     end
 end

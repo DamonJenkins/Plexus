@@ -23,8 +23,13 @@ end
 
 function PathListing:draw( force )
     if self.changed or force then
-        self.canvas:drawTextLine( 2, 1, self.fileName, self.colour )
-        self.canvas.buffer[ self.plexusOwner.margin ] = { "\149", colours.grey, self.backgroundColour }
+        local bg, tc, canvas = self.active and self.activeBackgroundColour or self.backgroundColour, self.active and self.activeColour or self.colour, self.canvas
+
+        canvas:clear( bg )
+        canvas:drawTextLine( 2, 1, self.fileName, tc, bg )
+        canvas.buffer[ self.plexusOwner.margin ] = { "\149", colours.grey, bg }
+
+        self.changed = false
     end
 end
 
