@@ -1,8 +1,8 @@
 class Plexus extends Application {
     static = {
         mimeTypes = {},
-        fileBlacklist = { ".DS_Store" }
-        deviceWhitelist = {"computer", "turtle", "drive"};
+        fileBlacklist = { ".DS_Store" },
+        deviceWhitelist = {"computer", "turtle", "drive"}
     };
     history = {
         offset = 0;
@@ -26,7 +26,6 @@ end
 function Plexus:start()
     self.cache = {}
     self.cache.listing_display = self:query "#listing_container".result[ 1 ]
-    --TODO: Peripheral management
 
     self:updateListing()
     self.super:start()
@@ -76,13 +75,19 @@ end
 
 --[[
     @instance
-    @desc
+    @desc Used to change the Plexus instance location, and update the listing
+    @param <string - path>
 ]]
 function Plexus:goToDirectory( path )
     self.location = path
     self:updateListing()
 end
 
+--[[
+    @setter
+    @desc Sets the instances location to a clean version of the path
+    @param <string - pwd>
+]]
 function Plexus:setLocation( pwd )
     self.location = Plexus.static.cleanPath( pwd )
 end
