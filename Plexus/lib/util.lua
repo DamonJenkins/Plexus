@@ -31,6 +31,25 @@ return {
 
 
         return s:sub( 1, math.max( math.floor( ( #s / 2 ) - 2 - ( over / 2 ) ), 0 ) ) .. "..." .. s:sub( math.ceil( ( #s / 2 ) + 2 + ( over / 2 ) ) )
+    end,
+
+    round = function (num, idp)
+        local mult = 10^(idp or 0)
+        return math.floor(num * mult + 0.5) / mult
+    end,
+
+    formatSize = function( b )
+        local units = {"B", "kB", "MB", "GB"}
+        local unit = 1
+        if type( b ) ~= "number" then
+            return error "Failed to format size: Argument must be number"
+        else
+            while not (b < 100) and unit < 4 do
+                b = b/1000
+                unit = unit + 1
+            end
+            return util.round( b, 1 ) .. units[unit]
+        end
     end
 
 }
