@@ -12,13 +12,45 @@ class Plexus extends Application {
     computerID = false;
 }
 
-function Plexus:__init__( pwd )
-    if type( pwd ) ~= "string" then
-        return error("Plexus constructor requires a string path representing starting location. '"..tostring( pwd ).."' is invalid.")
+function Plexus:__init__( ... )
+    self.computerID = computerID
+    self:super( ... )
+end
+
+--[[
+    @instance
+    @desc Prepares the Plexus instance to begin. Caches important nodes, information, mounts peripherals and sets up UI. Starts the application afterwards
+]]
+function Plexus:start()
+    self.cache = {}
+    self.cache.listing_display = self:query "#listing_container".result[ 1 ]
+    --TODO: Peripheral management
+
+    self:updateListing()
+    self.super:start()
+end
+
+--[[
+    @instance
+    @desc Displays the current working directory contents inside the Plexus file listing container. Directories are listed first, followed by files
+    @param [string - location], [boolean - preserve]
+]]
+function Plexus:updateListing( loc, preserve )
+    local listing, pwd = self.cache.listing_display, self.location
+    if not preserve then listing.nodes = {} end
+
+    local blacklist, fullPath = Plexus.static.fileBlacklist
+    for _, path in pairs( fs.list( loc or self.location ) ) do
+        fullPath = fs.combine( pwd, path )
+        if not util.isInTable( blacklist, fullPath ) then
+            listing:addNode( ( Titanium.getClass( fs.isDir( fullPath ) and "DirectoryListing" or "FileListing" ) )( self, fullPath ):set{ y = _ } )
+        end
     end
 
-    self.computerID = computerID
-    self.location = Plexus.static.cleanPath( pwd )
+    table.sort( listing.nodes, function( a, b ) return a.__type == "DirectoryListing" end )
+    for i = 1, #listing.nodes do
+        listing.nodes[ i ].y = i
+    end
 end
 
 --[[
@@ -38,6 +70,19 @@ function Plexus:historyNavigate( offset )
     else
         self.history.offset = hOffset + offset
     end
+end
+
+--[[
+    @instance
+    @desc
+]]
+function Plexus:goToDirectory( path )
+    self.location = path
+    self:updateListing()
+end
+
+function Plexus:setLocation( pwd )
+    self.location = Plexus.static.cleanPath( pwd )
 end
 
 --[[
@@ -115,3 +160,12 @@ function Plexus.static.determineMime( path )
         end
     end
 end
+
+configureConstructor {
+    orderedArguments = {"location"},
+    requiredArguments = {"location"},
+    useProxy = {"location"},
+    argumentTypes = {
+        location = "string"
+    }
+}
