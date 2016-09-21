@@ -1,12 +1,13 @@
 <PageContainer X=1 Y=1 width=51 height=19>
     <Page name="main">
         <Container id="control_bar" width=51 height=4 backgroundColour=128>
-            <Label X=46 Y=1 text="Plexus" colour="cyan"/>
+            <Label X=1 Y=1 text="Plexus" colour="cyan"/>
+            <Label X=8 Y=1 text="ERROR" colour=256 id="location"/>
             <Button text="<" id="back" class="nav_button" X=2/>
             <Button text="Up" id="up" class="nav_button" width=4 X=6/>
             <Button text=">" id="next" class="nav_button" X=11/>
 
-            <Input width=42 X=2 backgroundColour=lightGrey/>
+            <NavigationBar width=35 X=16 Y=3 backgroundColour=lightGrey/>
         </Container>
 
 
