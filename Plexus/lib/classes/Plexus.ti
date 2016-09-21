@@ -166,6 +166,16 @@ function Plexus.static.splitPath( path )
     return parts, path
 end
 
+function Plexus.static.splitPathAbsolute( path )
+    local parts, path = {}, Plexus.static.cleanPath( path )
+    while path:len() > 0 do
+        parts[ #parts + 1 ] = path
+        path = path:gsub( "/?[^/]-$", "" )
+    end
+
+    return parts, path
+end
+
 --[[
     @static
     @desc Returns the final part of the extension for 'path'
