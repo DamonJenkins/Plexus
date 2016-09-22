@@ -65,7 +65,7 @@ function NavigationBar:updateSectionListing()
     local sections, x = self:getSectionsToFit( self.width - 5 ), 1
     for i = 1, #sections do
         local name = fs.getName( sections[ i ] )
-        parent:addNode( Button( name, x, 1, #name ):on("trigger", function() self.application:goToDirectory( sections[ i ] ) end):set{ activeBackgroundColour = 1, activeColour = colours.cyan } )
+        parent:addNode( Button( name, x, 1, #name ):on("trigger", function() self.application:goToDirectory( sections[ i ] ) end):set{ activeBackgroundColour = 256, activeColour = colours.blue } )
 
         x = x + #name + 1
     end
