@@ -165,6 +165,7 @@ function Plexus.static.cleanPath( path )
             :gsub("\\", "/") -- Replace \ with /
             :gsub("//+", "/") -- Remove duplicate slashes
             :gsub("/+$", "") -- Remove trailing slashes
+            :gsub("^/", "") -- Remove leading slashes
 end
 
 --[[
