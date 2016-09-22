@@ -137,6 +137,22 @@ function Plexus:setLocation( pwd )
 end
 
 --[[
+    @instance
+    @desc Adds currently connected, whitelisted devices to the peripherals table.
+]]
+function Plexus:discoverPeripherals()
+    local whitelist = Plexus.static.deviceWhitelist
+
+    self.peripherals = {}
+    for i = 1, #whitelist do
+        local peripherals = { peripheral.find( whitelist[ i ] ) }
+        for i = 1, #peripherals do
+            table.insert( self.peripherals, peripherals[ i ] )
+        end
+    end
+end
+
+--[[
     @static
     @desc Cleans a file system path by removing anomolies that will likely cause problems when using the filesystem commands
     @param <string - path>
@@ -233,19 +249,6 @@ function Plexus.static.whitelistDevice( device )
     else
         return error "Failed to whitelist peripheral. Invalid peripheral type provided"
     end
-end
-
---[[
-    @static
-    @desc Adds currently connected, whitelisted devices to the peripherals table.
-]]
-function Plexus.static.discoverPeripherals( )
-    table.foreach( Plexus.static.deviceWhitelist, function( _, white )
-        local these = { peripheral.find( white ) }
-        if not type( these[1] ) == "nil" then
-            table.foreach( these, function( _, obj ) table.insert( self.peripherals, obj ) end )
-        end
-    end )
 end
 
 configureConstructor {
