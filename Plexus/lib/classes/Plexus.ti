@@ -128,7 +128,7 @@ function Plexus:alignSizeInformation()
 end
 
 function Plexus:updateTitle( title )
-    self.cache.title.text = "- /" .. util.truncateString( title or self.location, 51 - self.cache.title.X )
+    self.cache.title.text = "- /" .. util.truncateString( title or self.location, 30 )
 end
 
 --[[
