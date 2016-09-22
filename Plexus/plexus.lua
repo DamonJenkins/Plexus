@@ -22,4 +22,8 @@ App:query "#control_bar > Button#up":on("trigger", function( self )
     App:navigateUp()
 end)
 
+App:query "#header_container Button":on("trigger", function( self )
+    App:sortBy( self.id == "name_header" and "Name" or "Size" )
+end)
+
 App:start()
