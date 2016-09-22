@@ -9,13 +9,11 @@ _G.App = Plexus "/":set {
 App:importFromTML "Plexus/ui/plexus.tml"
 
 local app = {
-    masterTheme = Theme.fromFile("masterTheme", "Plexus/ui/themes/master.theme"),
     defaultTheme = Theme.fromFile("defaultTheme", "Plexus/ui/themes/default.theme"),
     pages = App:query "PageContainer".result[1]
 }
 
 app.pages:selectPage "main"
-App:addTheme(app.masterTheme)
 App:addTheme(app.defaultTheme)
 
 App:query "#control_bar > Button#up":on("trigger", function( self )
@@ -38,6 +36,10 @@ App:query "#next":on("trigger", function( self )
         local pos = #App.history.entries + App.history.offset
         App:goToDirectory( Plexus.static.cleanPath( App.history.entries[ pos ] ), true )
     end
+end)
+
+App:query "#header_container Button":on("trigger", function( self )
+    App:sortBy( self.id == "name_header" and "Name" or "Size" )
 end)
 
 App:start()

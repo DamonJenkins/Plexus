@@ -65,7 +65,7 @@ function NavigationBar:updateSectionListing()
     local sections, x = self:getSectionsToFit( self.width - 5 ), 1
     for i = 1, #sections do
         local name = fs.getName( sections[ i ] )
-        parent:addNode( Button( name, x, 1, #name ):on("trigger", function() self.application:goToDirectory( sections[ i ] ) end):set{ activeBackgroundColour = 1, activeColour = colours.cyan } )
+        parent:addNode( Button( name, x, 1, #name ):on("trigger", function() self.application:goToDirectory( sections[ i ] ) end):set{ activeBackgroundColour = 256, activeColour = colours.blue } )
 
         x = x + #name + 1
     end
@@ -77,6 +77,7 @@ end
     @desc Shows the address bar by changing page. The input is also focused and all text inside is selected for easy replacement
 ]]
 function NavigationBar:showAddressBar()
+    if self.pages.selectedPage.name == "address" then return end
     self.pages:selectPage "address"
 
     local input = self.addressPage.nodes[ 1 ]
