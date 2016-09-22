@@ -7,6 +7,7 @@ class Plexus extends Application {
     history = {
         offset = 0;
         entries = {};
+        testing = {};
     };
 
     peripherals = {};
@@ -32,6 +33,7 @@ function Plexus:start()
     }
 
     self:updateListing()
+    self:addToHistory( self.location )
     self.super:start()
 end
 
@@ -87,6 +89,20 @@ function Plexus:updateTitle( title )
     self.cache.title.text = "- /" .. util.truncateString( title or self.location, 51 - self.cache.title.X )
 end
 
+
+function Plexus:addToHistory( path )
+    local histPosition, pointInHist = self.history.offset, #self.history.entries + self.history.offset
+    if histPosition < 0 then
+        self.history.entries[ pointInHist + 1 ] = path
+        for i = pointInHist + 2, #self.history.entries do
+            table.remove( self.history.entries, pointInHist + 1 )
+        end
+        self:historyNavigate(0)
+    else
+        table.insert( self.history.entries, path )
+    end
+end
+
 --[[
     @instance
     @desc Navigate through the Plexus instance history
@@ -99,8 +115,10 @@ function Plexus:historyNavigate( offset )
 
     if offset > 0 and hOffset == 0 then
         return error "Attempt to navigate forward past history end point"
-    elseif offset < 0 and hOffset == #self.history.entries then
+    elseif offset < 0 and hOffset == #self.history.entries*(-1) then
         return error "Attempt to navigate backward past history start point"
+    elseif offset == 0 then
+        self.history.offset = 0
     else
         self.history.offset = hOffset + offset
     end
@@ -111,9 +129,10 @@ end
     @desc Used to change the Plexus instance location, and update the listing
     @param <string - path>
 ]]
-function Plexus:goToDirectory( path )
+function Plexus:goToDirectory( path, omitHistory )
     self.location = path
     self:updateListing()
+    if not omitHistory then self:addToHistory( path ) end
 end
 
 --[[
