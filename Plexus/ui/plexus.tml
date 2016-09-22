@@ -7,16 +7,20 @@
             <Button text="Up" id="up" class="nav_button" width=4 X=6/>
             <Button text=">" id="next" class="nav_button" X=11/>
 
-            <NavigationBar width=35 X=16 Y=3 backgroundColour=lightGrey/>
+            <NavigationBar width=30 X=16 Y=3 backgroundColour=lightGrey/>
+
+            <Button text="=" id="sidebar_toggle" class="nav_button" X=48/>
         </Container>
 
-
-        <Container Y=5 class="content_cont" width=51 height=15>
-            <Container X=1 Y=1 width=51 class="item_typesof">
+        <Container Y=5 class="content_cont" width=65 height=15 X="-13">
+            <ScrollContainer id="sidebar" width="14" height="15" backgroundColour="grey">
+                <Label text="Header" color="white" X="2" Y="2"/>
+            </ScrollContainer>
+            <Container X=15 Y=1 width=51 class="item_typesof">
                 <Label text="Name" X=2/>
                 <Label text="Size" id="size_header"/>
             </Container>
-            <ScrollContainer Y=2 width=51 height=13 id="listing_container" xScrollAllowed=false></ScrollContainer>
+            <ScrollContainer Y=2 width=51 height=13 X=15 id="listing_container" xScrollAllowed=false></ScrollContainer>
             <Label colour=lightGrey text="Powered by Titanium" X=16 Y=15/>
         </Container>
     </Page>

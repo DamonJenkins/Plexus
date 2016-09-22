@@ -26,13 +26,50 @@ end
 function Plexus:start()
     self.cache = {
         listing_display = self:query "#listing_container".result[ 1 ],
+        content_container = self:query ".content_cont".result[ 1 ],
         size_header = self:query "Label#size_header".result[ 1 ],
+        sidebar = self:query "ScrollContainer#sidebar".result[ 1 ],
         title = self:query "Label#location".result[ 1 ],
         nav = self:query "NavigationBar".result[ 1 ]
     }
 
     self:updateListing()
     self.super:start()
+end
+
+--[[
+    @instance
+    @desc Animates the content of the Plexus instance to reveal the sidebar. Adds the 'toggled' class to the sidebar
+]]
+function Plexus:revealSidebar()
+    self.cache.sidebar:addClass "toggled"
+    self.cache.content_container:animate("contentX", "X", 1, 0.1, "outSine")
+    self.cache.content_container:animate("contentWidth", "width", 51, 0.1, "inQuad")
+    self.cache.listing_display:animate("listingWidth", "width", 37, 0.1, "inQuad")
+end
+
+--[[
+    @instance
+    @desc Animates the content of the Plexus instance to hide the sidebar. Removes the 'toggled' class to the sidebar
+]]
+function Plexus:hideSidebar()
+    self.cache.sidebar:removeClass "toggled"
+    self.cache.content_container:animate("contentX", "X", -13, 0.15 )
+    self.cache.content_container:animate("contentWidth", "width", 66, 0.15 )
+    self.cache.listing_display:animate("listingWidth", "width", 51, 0.1)
+end
+
+--[[
+    @instance
+    @desc Toggles he visibility of the sidebar. If the sidebar contains the class of 'toggled',
+          it will be hidden. If the class is not applied, it will be revealed.
+]]
+function Plexus:toggleSidebar()
+    if self.cache.sidebar:hasClass "toggled" then
+        self:hideSidebar()
+    else
+        self:revealSidebar()
+    end
 end
 
 --[[

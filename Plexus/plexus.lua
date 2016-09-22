@@ -22,4 +22,8 @@ App:query "#control_bar > Button#up":on("trigger", function( self )
     App:navigateUp()
 end)
 
+App:query "#control_bar > Button#sidebar_toggle":on("trigger", function()
+    App:toggleSidebar()
+end)
+
 App:start()
