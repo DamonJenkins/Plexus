@@ -16,9 +16,9 @@
             <ScrollContainer id="sidebar" width="14" height="15" backgroundColour="grey">
                 <Label text="Header" color="white" X="2" Y="2"/>
             </ScrollContainer>
-            <Container X=15 Y=1 width=51 class="item_typesof">
-                <Label text="Name" X=2/>
-                <Label text="Size" id="size_header"/>
+            <Container X=15 Y=1 width=51 id="header_container">
+                <Button text="Name" id="name_header" X=2/>
+                <Button text="Size" id="size_header"/>
             </Container>
             <ScrollContainer Y=2 width=51 height=13 X=15 id="listing_container" xScrollAllowed=false></ScrollContainer>
             <Label colour=lightGrey text="Powered by Titanium" X=16 Y=15/>

@@ -13,11 +13,15 @@
         </Button>
     </Container>
 
-    <Container class="item_typesof">
+    <Container id="header_container">
         <backgroundColour>grey</backgroundColour>
 
-        <Label>
+        <Button>
+            <width>6</width>
             <colour>white</colour>
-        </Label>
+
+            <activeBackgroundColour>128</activeBackgroundColour>
+            <activeColour>cyan</activeColour>
+        </Button>
     </Container>
 </PageContainer>

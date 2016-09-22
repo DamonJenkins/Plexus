@@ -7,6 +7,11 @@ class Plexus extends Application {
     history = {
         offset = 0;
         entries = {};
+        testing = {};
+    };
+    sorting = {
+        target = false;
+        reverse = false;
     };
 
     peripherals = {};
@@ -29,11 +34,15 @@ function Plexus:start()
         content_container = self:query ".content_cont".result[ 1 ],
         size_header = self:query "Label#size_header".result[ 1 ],
         sidebar = self:query "ScrollContainer#sidebar".result[ 1 ],
+        name_header = self:query "Button#name_header".result[ 1 ],
+        size_header = self:query "Button#size_header".result[ 1 ],
         title = self:query "Label#location".result[ 1 ],
         nav = self:query "NavigationBar".result[ 1 ]
     }
 
+    self:sortBy "Name"
     self:updateListing()
+    self:addToHistory( self.location )
     self.super:start()
 end
 
@@ -98,8 +107,7 @@ function Plexus:updateListing( loc, preserve )
         end
     end
 
-    table.sort( listing.nodes, function( a, b ) return a.__type == "DirectoryListing" end )
-    for i = 1, #listing.nodes do listing.nodes[ i ].Y = i end
+    self:sortListing()
     listing.yScroll = 0
 
     self.cache.nav:updateSectionListing()
@@ -107,6 +115,45 @@ function Plexus:updateListing( loc, preserve )
     self:updateTitle()
 
     self.changed = true
+end
+
+function Plexus:sortListing()
+    local sorting, listing = self.sorting, self.cache.listing_display
+    table.sort( listing.nodes, function( a, b )
+        local main = not sorting.reverse and a or b
+        local sub = main == a and b or a
+
+        if main.__type == sub.__type then
+            if sorting.target == "Name" or not main.cache.size then
+                return main.fileName:lower() < sub.fileName:lower()
+            elseif sorting.target == "Size" then
+                return main.cache.size < sub.cache.size
+            end
+        else
+            if sorting.target == "Size" then
+                return not sorting.reverse and main.__type == "FileListing"
+            else
+                return main.__type == "DirectoryListing"
+            end
+        end
+    end )
+
+    for i = 1, #listing.nodes do listing.nodes[ i ].Y = i end
+end
+
+function Plexus:sortBy( target )
+    local sorting = self.sorting
+    if sorting.target == target then
+        sorting.reverse = not sorting.reverse
+    else
+        sorting.target = target
+        sorting.reverse = false
+    end
+
+    self.cache[ sorting.target == "Name" and "name_header" or "size_header" ].text = sorting.target .. " " .. ( sorting.reverse and "\31" or "\30" )
+    self.cache[ sorting.target == "Name" and "size_header" or "name_header" ].text = sorting.target == "Name" and "Size" or "Name" .. " "
+
+    self:sortListing()
 end
 
 --[[
@@ -121,7 +168,21 @@ function Plexus:alignSizeInformation()
 end
 
 function Plexus:updateTitle( title )
-    self.cache.title.text = "- /" .. util.truncateString( title or self.location, 51 - self.cache.title.X )
+    self.cache.title.text = "- /" .. util.truncateString( title or self.location, 30 )
+end
+
+
+function Plexus:addToHistory( path )
+    local histPosition, pointInHist = self.history.offset, #self.history.entries + self.history.offset
+    if histPosition < 0 then
+        self.history.entries[ pointInHist + 1 ] = path
+        for i = pointInHist + 2, #self.history.entries do
+            table.remove( self.history.entries, pointInHist + 1 )
+        end
+        self:historyNavigate(0)
+    else
+        table.insert( self.history.entries, path )
+    end
 end
 
 --[[
@@ -136,8 +197,10 @@ function Plexus:historyNavigate( offset )
 
     if offset > 0 and hOffset == 0 then
         return error "Attempt to navigate forward past history end point"
-    elseif offset < 0 and hOffset == #self.history.entries then
+    elseif offset < 0 and hOffset == #self.history.entries*(-1) then
         return error "Attempt to navigate backward past history start point"
+    elseif offset == 0 then
+        self.history.offset = 0
     else
         self.history.offset = hOffset + offset
     end
@@ -148,9 +211,10 @@ end
     @desc Used to change the Plexus instance location, and update the listing
     @param <string - path>
 ]]
-function Plexus:goToDirectory( path )
+function Plexus:goToDirectory( path, omitHistory )
     self.location = path
     self:updateListing()
+    if not omitHistory then self:addToHistory( path ) end
 end
 
 --[[

@@ -44,7 +44,7 @@ function PathListing:cacheFileInformation()
         return error("PathListing failed to fetch path information. Path '"..tostring( path ).."' doesn't exist")
     end
 
-    self.fileName = fs.getName( path )
+    self.fileName = util.truncateString( fs.getName( path ), 40 )
 end
 
 configureConstructor( {}, false, true )
