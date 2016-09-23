@@ -177,7 +177,7 @@ function Plexus:addToHistory( path )
     if histPosition < 0 then
         self.history.entries[ pointInHist + 1 ] = path
         for i = pointInHist + 2, #self.history.entries do
-            table.remove( self.history.entries, pointInHist + 1 )
+            table.remove( self.history.entries, i )
         end
         self:historyNavigate(0)
     else
