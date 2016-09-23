@@ -12,7 +12,7 @@ function PathListing:__init__( plexus, path )
     end
 
 
-    self.raw.width = plexus.cache.listing_display.width
+    self.raw.width = plexus.width
     self:super()
 
     self.plexusOwner = plexus
