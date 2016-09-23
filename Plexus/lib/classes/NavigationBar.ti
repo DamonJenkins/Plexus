@@ -67,6 +67,7 @@ function NavigationBar:updateSectionListing()
         local name = fs.getName( sections[ i ] )
         parent:addNode( Button( name, x, 1, #name ):on("trigger", function() self.application:goToDirectory( sections[ i ] ) end):set{ activeBackgroundColour = 256, activeColour = colours.blue } )
 
+        if i < #sections then parent:addNode( Label( "/", x + #name ) ) end
         x = x + #name + 1
     end
     self.pages.changed = true
