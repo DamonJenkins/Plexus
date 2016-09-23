@@ -34,7 +34,7 @@ function PathListing:draw( force )
 end
 
 function PathListing:setY( y )
-    self.backgroundColour = y % 2 == 0 and 256 or 1
+    self.backgroundColour = y % 2 == 0 and colours.lightBlue or 1
     self.Y = y
 end
 
