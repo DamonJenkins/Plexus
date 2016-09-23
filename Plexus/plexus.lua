@@ -16,6 +16,8 @@ local app = {
 app.pages:selectPage "main"
 App:addTheme(app.defaultTheme)
 
+App:query "Button#exit":on("trigger", function() App:stop(); term.clear(); term.setCursorPos( 1, 1 ) end)
+
 App:query "#control_bar > Button#up":on("trigger", function( self )
     App:navigateUp()
 end)

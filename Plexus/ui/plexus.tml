@@ -1,8 +1,9 @@
 <PageContainer X=1 Y=1 width=51 height=19>
     <Page name="main">
-        <Container id="control_bar" width=51 height=4 backgroundColour=128>
-            <Label X=1 Y=1 text="Plexus" colour="cyan"/>
-            <Label X=8 Y=1 text="ERROR" colour=256 id="location"/>
+        <Container id="control_bar" width="51" height="4" backgroundColour="128">
+            <Button id="exit" text="x" X="51" colour="red" backgroundColour="128" activeBackgroundColour="red" activeColour="white"/>
+            <Label X=2 Y=1 text="Plexus" colour="cyan"/>
+            <Label X=9 Y=1 text="ERROR" colour=256 id="location"/>
             <Button text="<" id="back" class="nav_button" X=2/>
             <Button text="Up" id="up" class="nav_button" width=4 X=6/>
             <Button text=">" id="next" class="nav_button" X=11/>
