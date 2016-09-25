@@ -6,5 +6,5 @@ dofile "build/titanium.lua"
 if not shell.run "Titanium/bin/package.lua --source=Plexus --class-source=Plexus/lib/classes --output=build/plexus.lua --init=Plexus/init.lua -tid --minify-source=Titanium/bin/Minify.lua" then
     printError "Failed to build Plexus. Not proceeding."
 else
-    dofile "build/plexus.lua"
+    shell.run "build/plexus.lua"
 end

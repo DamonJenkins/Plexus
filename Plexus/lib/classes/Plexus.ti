@@ -100,7 +100,7 @@ function Plexus:updateListing( loc, preserve )
             local node = ( Titanium.getClass( isDir and "DirectoryListing" or "FileListing" ) )( self, fullPath ):on("trigger", function()
                 if isDir then
                     self:goToDirectory( fullPath )
-                else error("File: "..fullPath) end
+                else shell.run( "edit " .. fullPath ); self:draw( true ) end
             end)
 
             listing:addNode( node:set{ Y = i } )
