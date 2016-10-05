@@ -1,4 +1,4 @@
 [submodule "Titanium"]
 	path = Titanium
-	url = https://github.com/hbomb79/Titanium.git
+	url = https://gitlab.com/hbomb79/Titanium.git
 	branch = develop
